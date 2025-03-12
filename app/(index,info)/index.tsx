@@ -585,8 +585,105 @@
 
 //===============================================
 
+// 1° Versão \\
+//===========\\
+// import React, { useEffect, useState } from "react";
+// import * as Form from "@/components/ui/Form"
+// import * as AC from "@bacons/apple-colors";
+// import { StyleSheet, TextInput, View } from "react-native";
+// import { IconSymbol } from "@/components/ui/IconSymbol";
+// import { useColorScheme } from "react-native";
+ 
+// export default function Page() {
+//   const colorScheme = useColorScheme();// Nota: <= biblioteca de cores usada pela apple
+  
+//   const [post, setPosts] = useState([]);
 
-import React from "react";
+
+//   useEffect(() => {
+//     fetchPost();
+//   },[]);
+  
+
+//   // Função para pegar os objetos do vetor da pasta ("/api/post")
+//   async function fetchPost() {
+//     const response = await fetch("/api/post");
+//     const data = await response.json();
+//     setPosts(data);
+//   }
+
+
+
+//   return(
+//     <View style={{ flex: 1 }}>
+//       <Form.List navigationTitle="Home">
+//         {/*navigationTitle="Home" <= são Propt para texto do (import * as Form from "@/components/ui/Form")  */}
+//           <Form.Section title="Create Post" footer="Create a post to share with your friends">
+//             <Form.HStack>
+//               <TextInput placeholder="What's on ypur mind?" style={{
+//                 flexGrow:1,
+//                 maxWidth: "80%",
+//                 borderWidth: 1,
+//                 borderColor: AC.separator,
+//                 borderRadius: 12,
+//                 padding: 8,
+//                 color: colorScheme === "dark" ? "white" : "black",
+//               }}/>
+//               <Form.Link href={"/(info)"}>
+//                 {/*@ts-ignore */}
+//                 <IconSymbol name="sparkle" color={AC.systemOrange}/>
+//               </Form.Link>
+//             </Form.HStack>
+//           </Form.Section>
+//             {/*Criando um post */}
+//           <Form.Section title="Recent Post">
+//             {/*dummyPost.map => percorre todos os itens do vetor (const dummyPost = []) */}
+//             {dummyPost.map((post) => (
+//               <Form.Link 
+//               key={post.id}/*key={post.id} => busco o Objeto dentro do vetor pelo (id) */
+//               href={"/two"} 
+//               systemImage={post.isLiked ? "heart.fill" : "heart"}
+//               style={{
+//                 overflow:"hidden",
+//                 flexShrink:1,
+//               }}
+//               >
+//                 {post.text}
+//             </Form.Link>
+//             ))}
+//           </Form.Section>
+
+//       </Form.List>
+//     </View>
+//   ); 
+// }
+
+// // Criando um Vetor com Objeto
+// const dummyPost = [
+//   {
+//     id:1,
+//     text: "Just launcher my new app!!",
+//     isLiked: false,
+//   },
+//   {
+//     id:2,
+//     text: "Working on some new UI designs today.",
+//     isLiked: true,
+//   },
+//   {
+//     id:3,
+//     text: "Morning run complete!!",
+//     isLiked: true,
+//   },
+// ];
+
+
+//===============================================
+
+// 2° Versão \\
+//===========\\
+
+import React, { useEffect, useState } from "react";
 import * as Form from "@/components/ui/Form"
 import * as AC from "@bacons/apple-colors";
 import { StyleSheet, TextInput, View } from "react-native";
@@ -595,6 +692,24 @@ import { useColorScheme } from "react-native";
  
 export default function Page() {
   const colorScheme = useColorScheme();// Nota: <= biblioteca de cores usada pela apple
+  
+  const [posts, setPosts] = useState<any[]>([]);
+
+
+  useEffect(() => {
+    fetchPost();
+  },[]);
+  
+
+  // Função para pegar os objetos do vetor da pasta ("/api/post")
+  async function fetchPost() {
+    const response = await fetch("/api/post");
+    const data = await response.json();
+    setPosts(data);
+  }
+
+
+
   return(
     <View style={{ flex: 1 }}>
       <Form.List navigationTitle="Home">
@@ -616,11 +731,10 @@ export default function Page() {
               </Form.Link>
             </Form.HStack>
           </Form.Section>
-            
             {/*Criando um post */}
           <Form.Section title="Recent Post">
             {/*dummyPost.map => percorre todos os itens do vetor (const dummyPost = []) */}
-            {dummyPost.map((post) => (
+            {posts.map((post) => (
               <Form.Link 
               key={post.id}/*key={post.id} => busco o Objeto dentro do vetor pelo (id) */
               href={"/two"} 
@@ -633,7 +747,6 @@ export default function Page() {
                 {post.text}
             </Form.Link>
             ))}
-            
           </Form.Section>
 
       </Form.List>
@@ -641,24 +754,8 @@ export default function Page() {
   ); 
 }
 
-// Criando um Vetor com Objeto
-const dummyPost = [
-  {
-    id:1,
-    text: "Just launcher my new app!!",
-    isLiked: false,
-  },
-  {
-    id:2,
-    text: "Working on some new UI designs today.",
-    isLiked: true,
-  },
-  {
-    id:3,
-    text: "Morning run complete!!",
-    isLiked: true,
-  },
-]
+
+
 
 
 

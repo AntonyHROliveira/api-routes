@@ -1,11 +1,44 @@
 
-// Fazendo uma requizição:
+// 1°) Forma de fazer uma requizição basica:
+// export function GET(request: Request){
+//     return Response.json({ hello: "World"});
+// }
+// NOTA: Para exibir no pronpt de comando (cmd);
+
+
+// 2°) Forma de fazer uma requizição basica:
+// export function GET(request: Request){
+//     console.log("GET request received")
+//     return Response.json({ hello: "World"});
+// }
+// NOTA: Para exibir no console do (vscode);
+
+
+
+
 export function GET(request: Request){
-    return Response.json({ hello: "World"});
+
+// Criando um Vetor com Objeto
+const data = [
+    {
+      id:1,
+      text: "Just launcher my new app!!",
+      isLiked: false,
+    },
+    {
+      id:2,
+      text: "Working on some new UI designs today.",
+      isLiked: true,
+    },
+    {
+      id:3,
+      text: "Morning run complete!!",
+      isLiked: true,
+    },
+  ];
+  return Response.json(data);
+  
 }
-
-
-
 
 
 

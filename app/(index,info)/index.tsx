@@ -588,14 +588,85 @@
 
 import React from "react";
 import * as Form from "@/components/ui/Form"
-import { View } from "react-native";
+import * as AC from "@bacons/apple-colors";
+import { StyleSheet, TextInput, View } from "react-native";
+import { IconSymbol } from "@/components/ui/IconSymbol";
+import { useColorScheme } from "react-native";
  
 export default function Page() {
+  const colorScheme = useColorScheme();// Nota: <= biblioteca de cores usada pela apple
   return(
     <View style={{ flex: 1 }}>
-      <Form.List>
+      <Form.List navigationTitle="Home">
+        {/*navigationTitle="Home" <= são Propt para texto do (import * as Form from "@/components/ui/Form")  */}
+          <Form.Section title="Create Post" footer="Create a post to share with your friends">
+            <Form.HStack>
+              <TextInput placeholder="What's on ypur mind?" style={{
+                flexGrow:1,
+                maxWidth: "80%",
+                borderWidth: 1,
+                borderColor: AC.separator,
+                borderRadius: 12,
+                padding: 8,
+                color: colorScheme === "dark" ? "white" : "black",
+              }}/>
+              <Form.Link href={"/(info)"}>
+                {/*@ts-ignore */}
+                <IconSymbol name="sparkle" color={AC.systemOrange}/>
+              </Form.Link>
+            </Form.HStack>
+          </Form.Section>
+            
+            {/*Criando um post */}
+          <Form.Section title="Recent Post">
+            {/*dummyPost.map => percorre todos os itens do vetor (const dummyPost = []) */}
+            {dummyPost.map((post) => (
+              <Form.Link 
+              key={post.id}/*key={post.id} => busco o Objeto dentro do vetor pelo (id) */
+              href={"/two"} 
+              systemImage={post.isLiked ? "heart.fill" : "heart"}
+              style={{
+                overflow:"hidden",
+                flexShrink:1,
+              }}
+              >
+                {post.text}
+            </Form.Link>
+            ))}
+            
+          </Form.Section>
 
       </Form.List>
     </View>
   ); 
 }
+
+// Criando um Vetor com Objeto
+const dummyPost = [
+  {
+    id:1,
+    text: "Just launcher my new app!!",
+    isLiked: false,
+  },
+  {
+    id:2,
+    text: "Working on some new UI designs today.",
+    isLiked: true,
+  },
+  {
+    id:3,
+    text: "Morning run complete!!",
+    isLiked: true,
+  },
+]
+/* NOTA: 
+Vetor é identificado por [colchetes] 
+=> const dummyPost = [] 
+
+Objeto é identificado por {chaves}: 
+{
+id;1,
+text: "Just launcher my new app!!",
+isLiked: false,
+},
+ */
